@@ -2,7 +2,7 @@ from environs import Env
 
 env = Env()
 try:
-    env.read_env('config/.env')
+    env.read_env('.env')
 
     DB_NAME=env.str("DB_NAME")
     DB_USER=env.str("DB_USER")
