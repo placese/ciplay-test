@@ -28,15 +28,17 @@ def get_db():
 @app.get("/statistics/", response_model=list[schemas.Statistics])
 def get_statistics(
     db: Session = Depends(get_db),
-    from_date: date = Query(date.min),
-    to_date: date = Query(date.today()),
-    sort: str = 'date',
+    from_date: date = Query(date.min, alias="from", title="from date", description="Start date of period."),
+    to_date: date = Query(date.today(), alias="to", title="to date", description="End date of period."),
+    sort: str = Query('date', alias="sort", title="sort", description="Field to sort by: date, view, clicks or cost. Date set as default."),
     ):
+    """Returns list of statistics by date"""
     return sort_statistics_list(calculate_CPC_and_CPM(jsonable_encoder(crud.get_statistics(db=db, from_date=from_date, to_date=to_date))), sort)
 
 
 @app.post("/statistics/", response_model=schemas.StatisticsCreate, status_code=status.HTTP_201_CREATED)
 def create_statistics(statistics: schemas.StatisticsCreate, db: Session = Depends(get_db)):
+    """Create statistics records and returns it"""
     try:
         return crud.create_statistics(db=db, statistics_obj=statistics)
     except:
@@ -48,6 +50,7 @@ def create_statistics(statistics: schemas.StatisticsCreate, db: Session = Depend
 
 @app.put("/statistics/", response_model=schemas.StatisticsCreate)
 def update_statistics(response: Response, statistics: schemas.StatisticsCreate, db: Session = Depends(get_db)):
+    """Updates statistics record if exists, or creates if doesn't exist and returns it"""
     result = crud.update_statistics(db=db, statistics_obj=statistics)
     if result:
         response.status_code = status.HTTP_200_OK
@@ -60,4 +63,5 @@ def update_statistics(response: Response, statistics: schemas.StatisticsCreate, 
 
 @app.delete("/statistics/", response_model=int, status_code=status.HTTP_200_OK)
 def drop_statistics(db: Session = Depends(get_db)):
-    return crud.delete_statustics(db=db)
+    """Drop all statistics"""
+    return crud.delete_statistics(db=db)

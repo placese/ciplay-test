@@ -50,7 +50,7 @@ def update_statistics(db: Session, statistics_obj: schemas.StatisticsCreate) -> 
     return db_statistics_obj
 
 
-def delete_statustics(db: Session) -> int:
+def delete_statistics(db: Session) -> int:
     """Drops all saved statistics and returns the numbers of deleted rows"""
     result =  db.query(models.Statistics).delete()
     db.commit()

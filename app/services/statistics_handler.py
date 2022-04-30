@@ -23,13 +23,13 @@ def _calculate_CPC(cost: float, clicks: int) -> float:
     """Returns cost per click or returns 0 if number of clicks is 0"""
     try:
         return round(cost / clicks, 2)
-    except (DivisionByZero, ZeroDivisionError) as e:
+    except (DivisionByZero, ZeroDivisionError):
         return 0
 
 
 def _calculate_CPM(cost: float, views: int) -> float:
     """Returns cost per millenium or returns 0 if number of views is 0"""
     try:
-        return round(cost / views * 1000, 2)
-    except (DivisionByZero, ZeroDivisionError) as e:
+        return round((cost / views) * 1000, 2)
+    except (DivisionByZero, ZeroDivisionError):
         return 0

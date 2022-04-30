@@ -5,9 +5,9 @@ from datetime import date
 class StatisticsBase(BaseModel):
     """Pydantic base model for statistics"""
     date: date
-    views: NonNegativeInt | None = Field(None)
-    clicks: NonNegativeInt | None = Field(None)
-    cost: NonNegativeFloat | None = Field(None)
+    views: NonNegativeInt | None = Field(0)
+    clicks: NonNegativeInt | None = Field(0)
+    cost: NonNegativeFloat | None = Field(0)
 
 
 class StatisticsCreate(StatisticsBase):
